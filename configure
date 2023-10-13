@@ -1,0 +1,75 @@
+#!/bin/bash
+
+BINDIR="bin"
+OBJDIR="object"
+MAKEFILE="Makefile"
+DONE=0
+
+if [ ! -d "$BINDIR" ]; then
+	DONE=1;
+	echo "Creating bin directory.";
+  	mkdir "$BINDIR"
+fi
+
+
+if [ ! -d "$OBJDIR" ]; then
+	DONE=1;
+	echo "Creating object directory.";
+  	mkdir "$OBJDIR"
+fi
+
+
+if [ ! -f "$MAKEFILE" ]; then
+	DONE=1;
+	echo "Creating Makefile.";
+	
+cat <<EOF > Makefile
+CC     = gcc
+CFLAGS = -Wall -pedantic -Wno-vla -O2 -std=c99
+
+DEBUG  = 0
+DFLAGS = -DDEBUG_ALLOCS=\$(DEBUG)
+
+SRC_DIR = src
+INC_DIR = include
+OBJ_DIR = object
+BIN_DIR = bin
+
+TEST_DIR = test
+
+SOURCES = \$(wildcard \$(SRC_DIR)/*.c)
+OBJECTS = \$(patsubst \$(SRC_DIR)/%.c, \$(OBJ_DIR)/%.o, \$(SOURCES))
+
+TEST_SOURCES = \$(wildcard \$(TEST_DIR)/*.c)
+TEST_OBJECTS = \$(patsubst \$(TEST_DIR)/%.c, \$(OBJ_DIR)/test_%.o, \$(TEST_SOURCES))
+
+.PHONY: clean all
+
+\$(OBJ_DIR)/%.o: \$(SRC_DIR)/%.c
+	\$(CC) \$(CFLAGS) \$(DFLAGS) -c \$< -o \$@
+
+\$(OBJ_DIR)/test_%.o: \$(TEST_DIR)/%.c
+	\$(CC) \$(CFLAGS) \$(DFLAGS) -I\$(INC_DIR) -c \$< -o \$@
+
+test: \$(TEST_OBJECTS) \$(OBJECTS)
+	@for test_obj in \$(TEST_OBJECTS); do \\
+		test_name=\$\$(basename \$\$test_obj .o); \\
+		\$(CC) \$(CFLAGS) \$(DFLAGS) -I\$(INC_DIR) \$(OBJECTS) \$\$test_obj -o \$(BIN_DIR)/\$\$test_name; \\
+		echo \$(CC) \$(CFLAGS) \$(DFLAGS) -I\$(INC_DIR) \$(OBJECTS) \$\$test_obj -o \$(BIN_DIR)/\$\$test_name; \\
+	done
+
+all: test
+
+debug: DEBUG = 1
+debug: clean test
+
+clean:
+	rm -f \$(BIN_DIR)/* \$(OBJECTS)
+EOF
+
+fi
+
+
+if [ $DONE -eq 1 ]; then
+  	echo "Done."
+fi

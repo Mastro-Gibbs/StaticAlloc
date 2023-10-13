@@ -28,7 +28,7 @@ Include the unique "static_alloc.h" header in your point of interest.
   
 See the sources in the test/ folder for how to use the library.  
   
-Optionally, invoke 
+Optionally invoke where you cloned the repository from
 ```bash
     $ ./configure
     $ make
