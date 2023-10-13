@@ -6,7 +6,7 @@
 	███████║   ██║   ██║  ██║   ██║   ██║╚██████╗██║  ██║███████╗███████╗╚██████╔╝╚██████╗
 	╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝  ╚═════╝
                                                                                       
-
+[![forthebadge](https://img.shields.io/badge/BASED-gray?style=for-the-badge&logo=c&labelColor=546CAF)]()  
 ---
 
 Static Alloc allows you to allocate memory statically, unlike Malloc()/Calloc()/Realloc().  
