@@ -36,7 +36,7 @@ Optionally invoke where you cloned the repository from
 to compile the testing sources in the test/ directory.  
   
   
-To run the tests in debug mode run:
+**To run the tests in debug mode** run:
 ```bash
     $ make clean
 ```
