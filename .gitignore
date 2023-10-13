@@ -1,0 +1,13 @@
+Makefile
+
+bin/*
+bin
+
+object/*
+object
+
+.vscode/*
+.vscode
+
+StaticAlloc.pro
+StaticAlloc.pro.user
